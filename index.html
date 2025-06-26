@@ -3,26 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Productivity App</title>
+  <title>Calendar App</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="app-container">
-    <h1>My Tasks</h1>
-
-    <form id="task-form" class="task-form">
-      <input
-        id="task-input"
-        type="text"
-        placeholder="Add a new task…"
-        required
-      />
-      <button type="submit">Add</button>
-    </form>
-
-    <ul id="task-list" class="task-list">
-      <!-- JS will inject <li> items here -->
-    </ul>
+  <div class="calendar">
+    <header>
+      <button id="prev">&#8249;</button>
+      <h1 id="month-year"></h1>
+      <button id="next">&#8250;</button>
+    </header>
+    <div class="weekdays">
+      <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+    </div>
+    <div id="days" class="days"></div>
   </div>
 
   <script src="script.js"></script>
