@@ -1,61 +1,50 @@
-// Select DOM elements
-const form      = document.getElementById('task-form');
-const input     = document.getElementById('task-input');
-const listEl    = document.getElementById('task-list');
+const monthYear = document.getElementById('month-year');
+const daysEl = document.getElementById('days');
+const prev = document.getElementById('prev');
+const next = document.getElementById('next');
 
-// Load tasks from localStorage or start with an empty array
-let tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+let date = new Date();
 
-// Render the task list
-function render() {
-  listEl.innerHTML = '';
-  tasks.forEach((task, i) => {
-    const li = document.createElement('li');
+function renderCalendar() {
+  const year = date.getFullYear();
+  const month = date.getMonth();
+  const today = new Date();
 
-    // Checkbox
-    const chk = document.createElement('input');
-    chk.type = 'checkbox';
-    chk.checked = task.completed;
-    chk.addEventListener('change', () => {
-      tasks[i].completed = chk.checked;
-      sync();
-    });
-
-    // Title
-    const span = document.createElement('span');
-    span.textContent = task.title;
-    span.className = 'title' + (task.completed ? ' completed' : '');
-
-    // Delete button
-    const del = document.createElement('button');
-    del.textContent = '✕';
-    del.className = 'delete';
-    del.addEventListener('click', () => {
-      tasks.splice(i, 1);
-      sync();
-    });
-
-    li.append(chk, span, del);
-    listEl.appendChild(li);
+  monthYear.textContent = date.toLocaleString('default', {
+    month: 'long',
+    year: 'numeric'
   });
+
+  // Get the first day and total days in the month
+  const firstDay = new Date(year, month, 1).getDay();
+  const lastDate = new Date(year, month + 1, 0).getDate();
+
+  daysEl.innerHTML = '';
+
+  // Add blank days before first day
+  for (let i = 0; i < firstDay; i++) {
+    daysEl.innerHTML += `<div></div>`;
+  }
+
+  // Add days
+  for (let i = 1; i <= lastDate; i++) {
+    const isToday =
+      i === today.getDate() &&
+      month === today.getMonth() &&
+      year === today.getFullYear();
+
+    daysEl.innerHTML += `<div class="${isToday ? 'today' : ''}">${i}</div>`;
+  }
 }
 
-// Save to localStorage and re-render
-function sync() {
-  localStorage.setItem('tasks', JSON.stringify(tasks));
-  render();
-}
-
-// Handle new-task submission
-form.addEventListener('submit', e => {
-  e.preventDefault();
-  const title = input.value.trim();
-  if (!title) return;
-
-  tasks.unshift({ title, completed: false });
-  input.value = '';
-  sync();
+prev.addEventListener('click', () => {
+  date.setMonth(date.getMonth() - 1);
+  renderCalendar();
 });
 
-// Initial render
-render();
+next.addEventListener('click', () => {
+  date.setMonth(date.getMonth() + 1);
+  renderCalendar();
+});
+
+renderCalendar();
