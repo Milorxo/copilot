@@ -8,16 +8,17 @@
   "theme_color": "#000000",
   "icons": [
     {
-      "src": "Iogo.png",
+      "src": "Logo.png",
       "type": "image/png",
       "sizes": "512x512",
       "purpose": "any maskable"
     },
     {
-      "src": "Iogo.png",
+      "src": "Logo.png",
       "type": "image/png",
       "sizes": "192x192",
       "purpose": "any maskable"
     }
   ]
 }
+
